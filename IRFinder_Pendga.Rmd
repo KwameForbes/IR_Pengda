@@ -1,0 +1,26 @@
+---
+title: "IRFinder_Pendga"
+author: "Kwame Forbes"
+date: "10/6/2022"
+output: html_document
+---
+Load Dependencies
+```{r}
+
+```
+
+Load WT
+```{r}
+WT1 =read.csv("/pine/scr/k/w/kwamek/pengda_collab/WT1irfinder_2/IRFinder-IR-nondir.txt",sep ="\t")
+WT2 =read.csv("/pine/scr/k/w/kwamek/pengda_collab/WT2irfinder_2/IRFinder-IR-nondir.txt",sep ="\t")
+WT3 =read.csv("/pine/scr/k/w/kwamek/pengda_collab/WT3irfinder_2/IRFinder-IR-nondir.txt",sep ="\t")
+```
+#TP1 <- subset(TP1, Warnings %in% c("-","LowCover"))
+TP1$EVENT <- paste(TP1$Chr,TP1$Start,TP1$End,TP1$Name,TP1$Strand,sep = "_")
+rownames(TP1) = TP1$EVENT
+TP1 <- subset(TP1,select = c(22,8,9,19,20))
+names(TP1)[names(TP1) == 'Coverage'] <- 'Coverage_TP1'
+names(TP1)[names(TP1) == 'IntronDepth'] <- 'IntronDepth_TP1'
+names(TP1)[names(TP1) == 'SpliceExact'] <- 'SpliceExact_TP1'
+names(TP1)[names(TP1) == 'IRratio'] <- 'IRratio_TP1'
+``
