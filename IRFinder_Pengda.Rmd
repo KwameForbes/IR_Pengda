@@ -6,21 +6,106 @@ output: html_document
 ---
 Load Dependencies
 ```{r}
-
+library(ggplot2)
+library(org.Hs.eg.db)
 ```
-
-Load WT
+variables
 ```{r}
-WT1 =read.csv("/pine/scr/k/w/kwamek/pengda_collab/WT1irfinder_2/IRFinder-IR-nondir.txt",sep ="\t")
-WT2 =read.csv("/pine/scr/k/w/kwamek/pengda_collab/WT2irfinder_2/IRFinder-IR-nondir.txt",sep ="\t")
-WT3 =read.csv("/pine/scr/k/w/kwamek/pengda_collab/WT3irfinder_2/IRFinder-IR-nondir.txt",sep ="\t")
+LFC = 1.0
+PADJ = 0.05
 ```
-#TP1 <- subset(TP1, Warnings %in% c("-","LowCover"))
-TP1$EVENT <- paste(TP1$Chr,TP1$Start,TP1$End,TP1$Name,TP1$Strand,sep = "_")
-rownames(TP1) = TP1$EVENT
-TP1 <- subset(TP1,select = c(22,8,9,19,20))
-names(TP1)[names(TP1) == 'Coverage'] <- 'Coverage_TP1'
-names(TP1)[names(TP1) == 'IntronDepth'] <- 'IntronDepth_TP1'
-names(TP1)[names(TP1) == 'SpliceExact'] <- 'SpliceExact_TP1'
-names(TP1)[names(TP1) == 'IRratio'] <- 'IRratio_TP1'
-``
+
+
+
+loading comparing WT-MUT
+investigate differential IR between two conditions with replicates 
+Minimum IR ratio of  0.05 met in at least one sample to consider the intron.
+Discard the LowCover and LowSplicing 
+```{r}
+MUT_WT_DESeq2 = read.csv("/pine/scr/k/w/kwamek/pengda_collab/irfiles_Pengda/WT-MUT-Analysis_2/MUT_WT_DESeq2.tsv",sep = "\t")
+MUT_WT_DESeq2$ensem = gsub("\\..*","",MUT_WT_DESeq2$ID)
+MUT_WT_DESeq2$symbol = mapIds(org.Hs.eg.db,
+                           keys = MUT_WT_DESeq2$ensem,
+                           column = "SYMBOL",
+                           keytype="ENSEMBL",
+                           multiVals = "first")
+AS = as.data.frame(rep("WTvMUT",dim(MUT_WT_DESeq2)[1]))
+names(AS)[names(AS) == 'rep("WTvMUT", dim(MUT_WT_DESeq2)[1])'] <- "Event"
+MUT_WT_DESeq2 = cbind(MUT_WT_DESeq2,AS)
+MUT_WT_DESeq2$Event <- as.factor(MUT_WT_DESeq2$Event)
+
+
+
+#write.csv(MUT_WT_DESeq2,"WT vs Mut.csv")
+
+```
+
+
+loading comparing WT-EV
+investigate differential IR between two conditions with replicates 
+Minimum IR ratio of  0.05 met in at least one sample to consider the intron.
+Discard the LowCover and LowSplicing 
+```{r}
+EV_WT_DESeq2 = read.csv("/pine/scr/k/w/kwamek/pengda_collab/irfiles_Pengda/WT-EV-Analysis_2/EV_WT_DESeq2.tsv",sep = "\t")
+EV_WT_DESeq2$ensem = gsub("\\..*","",EV_WT_DESeq2$ID)
+EV_WT_DESeq2$symbol = mapIds(org.Hs.eg.db,
+                           keys = EV_WT_DESeq2$ensem,
+                           column = "SYMBOL",
+                           keytype="ENSEMBL",
+                           multiVals = "first")
+AS = as.data.frame(rep("WTvEV",dim(EV_WT_DESeq2)[1]))
+names(AS)[names(AS) == 'rep("WTvEV", dim(EV_WT_DESeq2)[1])'] <- "Event"
+EV_WT_DESeq2 = cbind(EV_WT_DESeq2,AS)
+EV_WT_DESeq2$Event <- as.factor(EV_WT_DESeq2$Event)
+#write.csv(EV_WT_DESeq2,"WT vs EV.csv")
+```
+loading comparing MUT-EV
+investigate differential IR between two conditions with replicates 
+Minimum IR ratio of  0.05 met in at least one sample to consider the intron.
+Discard the LowCover and LowSplicing 
+```{r}
+EV_MUT_DESeq2 = read.csv("/pine/scr/k/w/kwamek/pengda_collab/irfiles_Pengda/T200M-EV-Analysis_2/EV_MUT_DESeq2.tsv",sep = "\t")
+EV_MUT_DESeq2$ensem = gsub("\\..*","",EV_MUT_DESeq2$ID)
+EV_MUT_DESeq2$symbol = mapIds(org.Hs.eg.db,
+                           keys = EV_MUT_DESeq2$ensem,
+                           column = "SYMBOL",
+                           keytype="ENSEMBL",
+                           multiVals = "first")
+AS = as.data.frame(rep("MUTvEV",dim(EV_MUT_DESeq2)[1]))
+names(AS)[names(AS) == 'rep("MUTvEV", dim(EV_MUT_DESeq2)[1])'] <- "Event"
+EV_MUT_DESeq2 = cbind(EV_MUT_DESeq2,AS)
+EV_MUT_DESeq2$Event <- as.factor(EV_MUT_DESeq2$Event)
+#write.csv(EV_MUT_DESeq2,"MUT vs EV.csv")
+```
+
+plot WT-MUT
+```{r}
+p <- ggplot(data = MUT_WT_DESeq2,mapping= 
+              aes(log2FoldChange,-log10(padj)))+ theme_classic() + geom_point(color = ifelse(abs(MUT_WT_DESeq2$log2FoldChange) >= LFC & MUT_WT_DESeq2$padj <= PADJ,"red","black")) + 
+  theme_classic()+ ggtitle("WT vs. T200M Differential Intron Retention") +xlab("Log2FoldChange") + ylab("-log10(padj)")
+p+ theme(plot.title = element_text(color="red", size=14, face="bold.italic"),
+         axis.title.x = element_text(color="blue", size=14, face="bold"),
+         axis.title.y = element_text(color="#993333", size=14, face="bold"))
+```
+
+
+Violin/boxplot for Comparisons
+```{r}
+
+big_ir <- rbind(EV_MUT_DESeq2,EV_WT_DESeq2,MUT_WT_DESeq2)
+
+q <- ggplot(big_ir, aes(x=Event, y=log2FoldChange,color =Event)) + geom_violin()
+
+q + stat_summary(fun =mean, geom="point", shape=23, size=4)
+
+```
+
+
+```{r}
+wtvmut_as <- read.csv("/nas/longleaf/home/kwamek/CellCycleAS/WTvsMUT-AS-SigEVENTS.csv",sep = "\t")
+
+```
+
+
+
+
