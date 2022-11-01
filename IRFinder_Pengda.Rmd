@@ -36,6 +36,8 @@ MUT_WT$Comparison <- as.factor(MUT_WT$Comparison)
 MUT_WT$Event <- ifelse(abs(MUT_WT$log2FoldChange) >= LFC & MUT_WT$padj <= PADJ,"Signifcant","Not Significant")
 write.csv(MUT_WT,"WTvsT200M_IRFinder.csv")
 MUT_WT_sig <- subset(MUT_WT,Event =="Signifcant")
+write.csv(MUT_WT_sig,"WTvsT200M_IRFinder_sig.csv")
+
 
 ```
 
