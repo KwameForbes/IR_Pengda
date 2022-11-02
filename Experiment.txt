@@ -1,0 +1,7 @@
+SampleNames	Condition  
+WT1	WT  
+WT2	WT
+WT3 WT
+T200M1  T200M
+T200M2  T200M
+T200M3  T200M

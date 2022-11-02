@@ -1,0 +1,6 @@
+/pine/scr/k/w/kwamek/pengda_collab/irfiles_Pengda/WT1irfinder/IRFinder-IR-nondir-WT1.txt
+/pine/scr/k/w/kwamek/pengda_collab/irfiles_Pengda/WT2irfinder/IRFinder-IR-nondir-WT2.txt
+/pine/scr/k/w/kwamek/pengda_collab/irfiles_Pengda/WT3irfinder/IRFinder-IR-nondir-WT3.txt
+/pine/scr/k/w/kwamek/pengda_collab/irfiles_Pengda/T200M1irfinder/IRFinder-IR-nondir-T200M1.txt
+/pine/scr/k/w/kwamek/pengda_collab/irfiles_Pengda/T200M2irfinder/IRFinder-IR-nondir-T200M2.txt
+/pine/scr/k/w/kwamek/pengda_collab/irfiles_Pengda/T200M3irfinder/IRFinder-IR-nondir-T200M3.txt
