@@ -115,7 +115,7 @@ WTvT200M <- as.data.frame(WTvT200M)
 ```
 
 ```{r}
-WTvT200M_GENE <- subset(WTvT200M,ID=='FANCG/ENSG00000221829.11/clean/chr9:35076870-35076970')
+WTvT200M_GENE <- subset(WTvT200M,ID=='DEPDC1/ENSG00000024526.17/anti-near/chr1:68488504-68488915')
 WTvT200M_GENE[3:8] <- as.numeric(unlist(WTvT200M_GENE[3:8]))
 condition <- c('WT','WT','WT','T200M','T200M','T200M')
 ratio <- c(WTvT200M_GENE$IRratio_WT1,WTvT200M_GENE$IRratio_WT2,WTvT200M_GENE$IRratio_WT3,WTvT200M_GENE$IRratio_T200M1,WTvT200M_GENE$IRratio_T200M2,WTvT200M_GENE$IRratio_T200M3)
@@ -123,7 +123,7 @@ ratio <- c(WTvT200M_GENE$IRratio_WT1,WTvT200M_GENE$IRratio_WT2,WTvT200M_GENE$IRr
 gene_plot <- cbind.data.frame(condition,ratio)
 
 d <- ggplot(gene_plot, aes(x=condition, y=ratio)) + 
-   theme_classic()+ ggtitle("FANCG/chr9:35076870-35076970") + labs(x ='Condition',y = "IR Ratio")
+   theme_classic()+ ggtitle("DEPDC1/chr1:68488504-68488915") + labs(x ='Condition',y = "IR Ratio")
 d <- d + geom_boxplot(width=0.2, fill = c('Red','Blue'),color = 'Black' )+ 
   theme(plot.title = element_text(color="black", size=20, face="bold.italic"),
          axis.title.x = element_text(color="black", size=20, face="bold"),
