@@ -26,7 +26,7 @@ names(WT1)[names(WT1) == 'Coverage'] <- 'Coverage_WT1'
 names(WT1)[names(WT1) == 'IntronDepth'] <- 'IntronDepth_WT1'
 names(WT1)[names(WT1) == 'SpliceExact'] <- 'SpliceExact_WT1'
 names(WT1)[names(WT1) == 'IRratio'] <- 'IRratio_WT1'
-WT1$ID <- paste(WT1$GENE,WT1$ENSEM,WT1$`Static Warning`,WT1$Chr,sep = ";")
+WT1$ID <- paste(WT1$GENE,WT1$ENSEM,WT1$`Static Warning`,WT1$Chr,sep = "/")
 WT1$Position <- paste(WT1$Start,WT1$End,sep = "-")
 WT1$ID <- paste(WT1$ID,WT1$Position,sep =":")
 WT1 <- WT1[c('ID','GENE','IRratio_WT1')]
@@ -38,7 +38,7 @@ names(WT2)[names(WT2) == 'Coverage'] <- 'Coverage_WT2'
 names(WT2)[names(WT2) == 'IntronDepth'] <- 'IntronDepth_WT2'
 names(WT2)[names(WT2) == 'SpliceExact'] <- 'SpliceExact_WT2'
 names(WT2)[names(WT2) == 'IRratio'] <- 'IRratio_WT2'
-WT2$ID <- paste(WT2$GENE,WT2$ENSEM,WT2$`Static Warning`,WT2$Chr,sep = ";")
+WT2$ID <- paste(WT2$GENE,WT2$ENSEM,WT2$`Static Warning`,WT2$Chr,sep = "/")
 WT2$Position <- paste(WT2$Start,WT2$End,sep = "-")
 WT2$ID <- paste(WT2$ID,WT2$Position,sep =":")
 WT2 <- WT2[c('ID','GENE','IRratio_WT2')]
@@ -50,7 +50,7 @@ names(WT3)[names(WT3) == 'Coverage'] <- 'Coverage_WT3'
 names(WT3)[names(WT3) == 'IntronDepth'] <- 'IntronDepth_WT3'
 names(WT3)[names(WT3) == 'SpliceExact'] <- 'SpliceExact_WT3'
 names(WT3)[names(WT3) == 'IRratio'] <- 'IRratio_WT3'
-WT3$ID <- paste(WT3$GENE,WT3$ENSEM,WT3$`Static Warning`,WT3$Chr,sep = ";")
+WT3$ID <- paste(WT3$GENE,WT3$ENSEM,WT3$`Static Warning`,WT3$Chr,sep = "/")
 WT3$Position <- paste(WT3$Start,WT3$End,sep = "-")
 WT3$ID <- paste(WT3$ID,WT3$Position,sep =":")
 WT3 <- WT3[c('ID','GENE','IRratio_WT3')]
@@ -71,7 +71,7 @@ names(T200M1)[names(T200M1) == 'Coverage'] <- 'Coverage_T200M1'
 names(T200M1)[names(T200M1) == 'IntronDepth'] <- 'IntronDepth_T200M1'
 names(T200M1)[names(T200M1) == 'SpliceExact'] <- 'SpliceExact_T200M1'
 names(T200M1)[names(T200M1) == 'IRratio'] <- 'IRratio_T200M1'
-T200M1$ID <- paste(T200M1$GENE,T200M1$ENSEM,T200M1$`Static Warning`,T200M1$Chr,sep = ";")
+T200M1$ID <- paste(T200M1$GENE,T200M1$ENSEM,T200M1$`Static Warning`,T200M1$Chr,sep = "/")
 T200M1$Position <- paste(T200M1$Start,T200M1$End,sep = "-")
 T200M1$ID <- paste(T200M1$ID,T200M1$Position,sep =":")
 T200M1 <- T200M1[c('ID','GENE','IRratio_T200M1')]
@@ -83,7 +83,7 @@ names(T200M2)[names(T200M2) == 'Coverage'] <- 'Coverage_T200M2'
 names(T200M2)[names(T200M2) == 'IntronDepth'] <- 'IntronDepth_T200M2'
 names(T200M2)[names(T200M2) == 'SpliceExact'] <- 'SpliceExact_T200M2'
 names(T200M2)[names(T200M2) == 'IRratio'] <- 'IRratio_T200M2'
-T200M2$ID <- paste(T200M2$GENE,T200M2$ENSEM,T200M2$`Static Warning`,T200M2$Chr,sep = ";")
+T200M2$ID <- paste(T200M2$GENE,T200M2$ENSEM,T200M2$`Static Warning`,T200M2$Chr,sep = "/")
 T200M2$Position <- paste(T200M2$Start,T200M2$End,sep = "-")
 T200M2$ID <- paste(T200M2$ID,T200M2$Position,sep =":")
 T200M2 <- T200M2[c('ID','GENE','IRratio_T200M2')]
@@ -95,7 +95,7 @@ names(T200M3)[names(T200M3) == 'Coverage'] <- 'Coverage_T200M3'
 names(T200M3)[names(T200M3) == 'IntronDepth'] <- 'IntronDepth_T200M3'
 names(T200M3)[names(T200M3) == 'SpliceExact'] <- 'SpliceExact_T200M3'
 names(T200M3)[names(T200M3) == 'IRratio'] <- 'IRratio_T200M3'
-T200M3$ID <- paste(T200M3$GENE,T200M3$ENSEM,T200M3$`Static Warning`,T200M3$Chr,sep = ";")
+T200M3$ID <- paste(T200M3$GENE,T200M3$ENSEM,T200M3$`Static Warning`,T200M3$Chr,sep = "/")
 T200M3$Position <- paste(T200M3$Start,T200M3$End,sep = "-")
 T200M3$ID <- paste(T200M3$ID,T200M3$Position,sep =":")
 T200M3 <- T200M3[c('ID','GENE','IRratio_T200M3')]
@@ -109,20 +109,30 @@ Combining WT and T200M
 ```{r}
 WTvT200M <- merge(WT,T200M, by=c("ID",'GENE'), all.x = T,all.y = T)
 WTvT200M <- na.omit(WTvT200M)
+WTvT200M <- as.data.frame(WTvT200M)
 #WTvT200M <- subset(WTvT200M, apply(WTvT200M[c(3,4)], MARGIN =  1,mean)) >=irRatio
 
 ```
 
 ```{r}
-WTvT200M_GENE <- subset(WTvT200M,GENE =='DEPDC1')
+WTvT200M_GENE <- subset(WTvT200M,ID=='FANCG/ENSG00000221829.11/clean/chr9:35076870-35076970')
+WTvT200M_GENE[3:8] <- as.numeric(unlist(WTvT200M_GENE[3:8]))
+condition <- c('WT','WT','WT','T200M','T200M','T200M')
+ratio <- c(WTvT200M_GENE$IRratio_WT1,WTvT200M_GENE$IRratio_WT2,WTvT200M_GENE$IRratio_WT3,WTvT200M_GENE$IRratio_T200M1,WTvT200M_GENE$IRratio_T200M2,WTvT200M_GENE$IRratio_T200M3)
 
-d <- ggplot(WTvT200M_ri_jc, aes(x="WTvT200M", y=IncLevelDifference)) + 
-   theme_classic()+ ggtitle("WT vs T200M RI PSI") + ylab("IncLevelDifference") + geom_violin()
-d <- d + geom_boxplot(width=0.2)+ 
+gene_plot <- cbind.data.frame(condition,ratio)
+
+d <- ggplot(gene_plot, aes(x=condition, y=ratio)) + 
+   theme_classic()+ ggtitle("FANCG/chr9:35076870-35076970") + labs(x ='Condition',y = "IR Ratio")
+d <- d + geom_boxplot(width=0.2, fill = c('Red','Blue'),color = 'Black' )+ 
   theme(plot.title = element_text(color="black", size=20, face="bold.italic"),
          axis.title.x = element_text(color="black", size=20, face="bold"),
          axis.title.y = element_text(color="black", size=20, face="bold"),
          axis.text = element_text(size = 20)) 
+
+d
+
+
 ```
 
 
